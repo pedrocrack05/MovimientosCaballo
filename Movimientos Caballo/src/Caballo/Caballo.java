@@ -23,6 +23,7 @@ public class Caballo {
 		 * 2) Debe verificar que no haya un 1 en la posicion deseada para moverse
 		 * 3) PENE
 		 * 4) Chupan
+		 * 5) szs
 		 */
 		
 	}
