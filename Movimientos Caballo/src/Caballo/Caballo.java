@@ -24,6 +24,7 @@ public class Caballo {
 		 * 3) PENE
 		 * 4) Chupan
 		 * 5) szs
+		 * 6) rico
 		 */
 		
 	}
