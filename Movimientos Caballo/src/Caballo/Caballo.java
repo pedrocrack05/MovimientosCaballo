@@ -22,6 +22,7 @@ public class Caballo {
 		/* 1) No se debe desbordar en movimientos hacia arriba o hacia abajo
 		 * 2) Debe verificar que no haya un 1 en la posicion deseada para moverse
 		 * 3) PENE
+		 * 4) Chupan
 		 */
 		
 	}
