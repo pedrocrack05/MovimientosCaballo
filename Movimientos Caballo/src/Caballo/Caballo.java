@@ -4,23 +4,23 @@ import java.util.Arrays;
 
 public class Caballo {
     private int fila, columna;
-    private int[][] tablero;
-    int[] dx = { -2, -1, 1, 2, -2, -1, 1, 2 };
-    int[] dy = { 1, 2, 2, 1, -1, -2, -2, -1 };
+    private static int[][] tablero;
+    private static int[] dx = { -2, -1, 1, 2, -2, -1, 1, 2 };
+    private static int[] dy = { 1, 2, 2, 1, -1, -2, -2, -1 };
 
     public Caballo(int fila, int columna) {
         this.fila = fila;
         this.columna = columna;
-        this.tablero = new int[8][8];
+        tablero = new int[8][8];
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                this.tablero[i][j] = 0;
+                tablero[i][j] = 0;
             }
         }
     }
 
-    public void resolver(int fila, int columna) throws EImposible {
+    public int resolver(int fila, int columna, int intento) throws EImposible {
         if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
             throw new EImposible("La ficha no se encuentra en el tablero");
         } else if (tablero[fila][columna] == 1) {
@@ -29,30 +29,26 @@ public class Caballo {
             tablero[fila][columna] = 1;
             
             boolean movimientos[]= movimientos(fila, columna);
-            int movimientosSolucion[]= new int[1];
-            movimientosSolucion= Arrays.copyOf(movimientosSolucion, movimientosSolucion.length+1);
-            for(boolean posible : movimientos) {
-            	int i=0;
-            	if(posible== true) {
+            int movimientosSolucion[]= new int[8];
+            for(int i=0; i<8;i++) {
+            	if(movimientos[i]== true) {
             		movimientosSolucion[i]= i;
             	}else {
             		movimientosSolucion[i]= 9;
             	}
-            	
-            	i++;
             }
             
             int k=0;
-            while(movimientosSolucion[k]==9) {
+            while(movimientosSolucion[k]==9 && movimientosSolucion.length<8) {
             	k++;
             }
-            
-            resolver(fila+movimientosSolucion[k], columna+movimientosSolucion[k]);
+             System.out.println(intento);
+            return resolver(fila+dy[k], columna+dx[k], intento+1);
         }
        
     }
 
-    public boolean[] movimientos(int fila, int columna) throws EImposible {
+    public static boolean[] movimientos(int fila, int columna) throws EImposible {
         boolean[] movimientosValidos = new boolean[8];
         
         //estos son los desplazamientos posibles
@@ -93,6 +89,13 @@ public class Caballo {
     public static void main(String[] args) {
 		boolean movimientos[]= {false, false, false, false, false, false, false, false};
 		
+		Caballo caballo= new Caballo(3, 6);
 		System.out.println(noHayMovimientosValidos(movimientos));
+		try{
+			System.out.println(caballo.resolver(6, 3, 1));
+		}catch(EImposible e) {
+			System.out.println(e.getMessage());
+		}
+		
 	}
 }
