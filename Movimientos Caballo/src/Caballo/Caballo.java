@@ -39,10 +39,10 @@ public class Caballo {
             }
             
             int k=0;
-            while(movimientosSolucion[k]==9 && movimientosSolucion.length<8) {
+            while(movimientosSolucion[k]==9 && movimientosSolucion.length<=8) {
             	k++;
             }
-             System.out.println(intento);
+            System.out.println(intento);
             return resolver(fila+dy[k], columna+dx[k], intento+1);
         }
        
@@ -87,12 +87,10 @@ public class Caballo {
     }
     
     public static void main(String[] args) {
-		boolean movimientos[]= {false, false, false, false, false, false, false, false};
 		
-		Caballo caballo= new Caballo(3, 6);
-		System.out.println(noHayMovimientosValidos(movimientos));
+		Caballo caballo= new Caballo(0, 0);
 		try{
-			System.out.println(caballo.resolver(6, 3, 1));
+			System.out.println(caballo.resolver(0, 0, 1));
 		}catch(EImposible e) {
 			System.out.println(e.getMessage());
 		}
