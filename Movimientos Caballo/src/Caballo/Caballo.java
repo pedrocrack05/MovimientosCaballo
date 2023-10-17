@@ -21,10 +21,11 @@ public class Caballo {
     }
 
     public int resolver(int fila, int columna, int intento) throws EImposible {
-        if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
-            throw new EImposible("La ficha no se encuentra en el tablero");
+    	
+    	if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
+    		throw new EImposible("El caballo no se encuentra en el tablero");
         } else if (tablero[fila][columna] == 1) {
-            throw new EImposible("Ya hizo este movimiento");
+        	throw new EImposible("Ya hizo este movimiento");
         } else {
             tablero[fila][columna] = 1;
             
@@ -43,7 +44,9 @@ public class Caballo {
             	k++;
             }
             System.out.println(intento);
+            
             return resolver(fila+dy[k], columna+dx[k], intento+1);
+            
         }
        
     }
@@ -88,9 +91,9 @@ public class Caballo {
     
     public static void main(String[] args) {
 		
-		Caballo caballo= new Caballo(0, 0);
+		Caballo caballo= new Caballo(3, 6);
 		try{
-			System.out.println(caballo.resolver(0, 0, 1));
+			System.out.println(caballo.resolver(3, 6, 1));
 		}catch(EImposible e) {
 			System.out.println(e.getMessage());
 		}
