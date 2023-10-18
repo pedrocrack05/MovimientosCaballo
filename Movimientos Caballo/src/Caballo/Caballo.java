@@ -39,8 +39,7 @@ public class Caballo {
 					j++;
 				}
 			}
-			System.out.println(intento);
-
+            System.out.println(intento+"= "+fila+", "+columna);
 			int k=0;
 			while(k<8) {
 				if(resolver(fila+dy[movimientosSolucion[k]], columna+dx[movimientosSolucion[k]], intento+1)==-1) {
@@ -54,6 +53,21 @@ public class Caballo {
 			return resolver(fila+dy[movimientosSolucion[k]], columna+dx[movimientosSolucion[k]], intento+1);
 
 		}
+	}
+	
+	public static int warnsdorff(int fila, int columna, int[] movimientosSolucion)throws EImposible {
+		int [] cantidadSiguientesCasillas= new int[1];
+		for(int i=0; i<movimientosSolucion.length; i++) {
+			boolean [] movimientosSiguienteCasilla= movimientos(fila+dy[movimientosSolucion[i]], columna+dx[movimientosSolucion[i]]);
+			for(int j=0; j<8; j++) {
+				if(movimientosSiguienteCasilla[j]==true) {
+					cantidadSiguientesCasillas[i]+=1;
+				}
+			}
+			cantidadSiguientesCasillas= Arrays.copyOf(cantidadSiguientesCasillas, cantidadSiguientesCasillas.length+1);
+		}
+		
+		
 	}
 
 	public static boolean[] movimientos(int fila, int columna) throws EImposible {
@@ -94,6 +108,16 @@ public class Caballo {
 		return false;
 	}
 
+	public static void imprimirTablero(Caballo caballo) {
+		for (int i = 0; i < 8; i++) {
+			System.out.print("[");
+			for (int j = 0; j < 8; j++) {
+				System.out.print(tablero[i][j]+" , ");
+			}
+			System.out.print("]\n");
+		}
+	}
+
 	public static void main(String[] args) {
 
 		Caballo caballo= new Caballo(3, 6);
@@ -102,6 +126,7 @@ public class Caballo {
 		}catch(EImposible e) {
 			System.out.println(e.getMessage());
 		}
-
+		
+		imprimirTablero(caballo);
 	}
 }
