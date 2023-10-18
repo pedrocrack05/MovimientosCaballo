@@ -23,9 +23,9 @@ public class Caballo {
 	public int resolver(int fila, int columna, int intento) throws EImposible {
 
 		if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
-			return -1;
+			throw new EImposible("El caballo no se encuentra en el tablero");
 		} else if (tablero[fila][columna] == 1) {
-			return -1;
+			throw new EImposible("Ya hizo este movimiento");
 		} else {
 			tablero[fila][columna] = 1;
 
