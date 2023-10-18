@@ -31,14 +31,15 @@ public class Caballo {
 
 			boolean movimientos[]= movimientos(fila, columna);
 			int movimientosSolucion[]= new int[1];
-			movimientosSolucion= Arrays.copyOf(movimientosSolucion, movimientosSolucion.length+1);
 			int j=0;
 			for(int i=0; i<8;i++) {
 				if(movimientos[i]== true) {
 					movimientosSolucion[j]= i;
+					movimientosSolucion= Arrays.copyOf(movimientosSolucion, movimientosSolucion.length+1);
 					j++;
 				}
 			}
+			System.out.println(intento);
 
 			int k=0;
 			while(k<8) {
