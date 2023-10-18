@@ -23,32 +23,36 @@ public class Caballo {
 	public int resolver(int fila, int columna, int intento) throws EImposible {
 
 		if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
-			throw new EImposible("El caballo no se encuentra en el tablero");
+			return -1;
 		} else if (tablero[fila][columna] == 1) {
-			throw new EImposible("Ya hizo este movimiento");
+			return -1;
 		} else {
 			tablero[fila][columna] = 1;
 
 			boolean movimientos[]= movimientos(fila, columna);
-			int movimientosSolucion[]= new int[8];
+			int movimientosSolucion[]= new int[1];
+			movimientosSolucion= Arrays.copyOf(movimientosSolucion, movimientosSolucion.length+1);
+			int j=0;
 			for(int i=0; i<8;i++) {
 				if(movimientos[i]== true) {
-					movimientosSolucion[i]= i;
-				}else {
-					movimientosSolucion[i]= 9;
+					movimientosSolucion[j]= i;
+					j++;
 				}
 			}
 
 			int k=0;
-			while(movimientosSolucion[k]==9 && k<8) {
-				k++;
+			while(k<8) {
+				if(resolver(fila+dy[movimientosSolucion[k]], columna+dx[movimientosSolucion[k]], intento+1)==-1) {
+					k++;
+					continue;
+				}else {
+					break;
+				}
 			}
-			
-			System.out.println(intento);
-			
-			return resolver(fila+dy[k], columna+dx[k], intento+1);
-		}
 
+			return resolver(fila+dy[movimientosSolucion[k]], columna+dx[movimientosSolucion[k]], intento+1);
+
+		}
 	}
 
 	public static boolean[] movimientos(int fila, int columna) throws EImposible {
