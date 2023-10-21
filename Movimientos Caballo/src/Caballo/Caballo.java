@@ -10,20 +10,17 @@ public class Caballo {
 
 	public Caballo(int fila, int columna) {
 		this.fila = fila;
-		this.columna = columna;
-		tablero = new int[8][8];
+	    this.columna = columna;
+	    tablero = new int[8][8];
 
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				tablero[i][j] = 0;
-			}
-		}
+	    for (int i = 0; i < 8; i++) {
+	        for (int j = 0; j < 8; j++) {
+	            tablero[i][j] = 0;
+	        }
+	    }   
 	}
 
 	public int resolver(int fila, int columna, int intento) throws EImposible {
-		 if (intento == 64) {
-		        return 1;
-		 }
 		if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
 			return -1;
 		} else if (tablero[fila][columna] == 1) {
@@ -32,12 +29,18 @@ public class Caballo {
 			tablero[fila][columna] = 1;
 
 			boolean movimientos[]= movimientos(fila, columna);
-			int movimientosSolucion[]= new int[1];
+			int k = 0;
+			for (int i = 0; i<8; i++) {
+				if (movimientos[i] == true) {
+					k++;
+				}
+			}
+			
+			int movimientosSolucion[]= new int[k];
 			int j=0;
 			for(int i=0; i<8;i++) {
 				if(movimientos[i]== true) {
 					movimientosSolucion[j]= i;
-					movimientosSolucion= Arrays.copyOf(movimientosSolucion, movimientosSolucion.length+1);
 					j++;
 				}
 			}
@@ -52,7 +55,6 @@ public class Caballo {
 	public static int warnsdorff(int fila, int columna, int[] movimientosSolucion)throws EImposible {
 		int[] cantidadSiguientesCasillas = new int[movimientosSolucion.length + 1];
 		for(int i=0; i<movimientosSolucion.length; i++) {
-			cantidadSiguientesCasillas= Arrays.copyOf(cantidadSiguientesCasillas, cantidadSiguientesCasillas.length+1);
 			boolean [] movimientosSiguienteCasilla= movimientos(fila+dy[movimientosSolucion[i]], columna+dx[movimientosSolucion[i]]);
 			for(int j=0; j<8; j++) {
 				if(movimientosSiguienteCasilla[j]==true) {
@@ -121,9 +123,9 @@ public class Caballo {
 
 	public static void main(String[] args) {
 
-		Caballo caballo= new Caballo(3, 6);
+		Caballo caballo= new Caballo(0, 0);
 		try{
-			System.out.println(caballo.resolver(3, 6, 1));
+			System.out.println(caballo.resolver(0, 0, 0));
 		}catch(EImposible e) {
 			System.out.println(e.getMessage());
 		}
