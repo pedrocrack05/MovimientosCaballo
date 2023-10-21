@@ -47,7 +47,7 @@ public class Caballo {
             System.out.println(intento+"= "+fila+", "+columna);
 			
             int solucion= warnsdorff(fila, columna, movimientosSolucion);
-            return resolver(fila+dy[solucion], columna+dx[solucion], intento+1);
+            return resolver(fila+dx[solucion], columna+dy[solucion], intento+1);
 
 		}
 	}
@@ -55,7 +55,7 @@ public class Caballo {
 	public static int warnsdorff(int fila, int columna, int[] movimientosSolucion)throws EImposible {
 		int[] cantidadSiguientesCasillas = new int[movimientosSolucion.length + 1];
 		for(int i=0; i<movimientosSolucion.length; i++) {
-			boolean [] movimientosSiguienteCasilla= movimientos(fila+dy[movimientosSolucion[i]], columna+dx[movimientosSolucion[i]]);
+			boolean [] movimientosSiguienteCasilla= movimientos(fila+dx[movimientosSolucion[i]], columna+dy[movimientosSolucion[i]]);
 			for(int j=0; j<8; j++) {
 				if(movimientosSiguienteCasilla[j]==true) {
 					cantidadSiguientesCasillas[i]+=1;
@@ -79,8 +79,8 @@ public class Caballo {
 		//estos son los desplazamientos posibles
 
 		for (int i = 0; i < 8; i++) {
-			int nuevaFila = fila + dy[i];
-			int nuevaColumna = columna + dx[i];
+			int nuevaFila = fila + dx[i];
+			int nuevaColumna = columna + dy[i];
 
 			if (nuevaFila >= 0 && nuevaFila < 8 && nuevaColumna >= 0 && nuevaColumna < 8) {
 				if (tablero[nuevaFila][nuevaColumna] == 0) {
