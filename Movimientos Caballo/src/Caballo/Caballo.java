@@ -21,7 +21,9 @@ public class Caballo {
 	}
 
 	public int resolver(int fila, int columna, int intento) throws EImposible {
-
+		 if (intento == 64) {
+		        return 1;
+		 }
 		if (fila < 0 || fila >= 8 || columna < 0 || columna >= 8) {
 			return -1;
 		} else if (tablero[fila][columna] == 1) {
@@ -48,7 +50,7 @@ public class Caballo {
 	}
 	
 	public static int warnsdorff(int fila, int columna, int[] movimientosSolucion)throws EImposible {
-		int [] cantidadSiguientesCasillas= new int[1];
+		int[] cantidadSiguientesCasillas = new int[movimientosSolucion.length + 1];
 		for(int i=0; i<movimientosSolucion.length; i++) {
 			cantidadSiguientesCasillas= Arrays.copyOf(cantidadSiguientesCasillas, cantidadSiguientesCasillas.length+1);
 			boolean [] movimientosSiguienteCasilla= movimientos(fila+dy[movimientosSolucion[i]], columna+dx[movimientosSolucion[i]]);
@@ -58,7 +60,7 @@ public class Caballo {
 				}
 			}
 		}
-		
+				
 		int mejorSolucion= cantidadSiguientesCasillas[0];
 		for(int i=1; i<cantidadSiguientesCasillas.length; i++) {
 			if(mejorSolucion>cantidadSiguientesCasillas[i]) {
@@ -67,7 +69,7 @@ public class Caballo {
 		}
 		
 		return mejorSolucion;
-	}
+	}	
 
 	public static boolean[] movimientos(int fila, int columna) throws EImposible {
 		boolean[] movimientosValidos = new boolean[8];
