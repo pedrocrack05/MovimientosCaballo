@@ -46,7 +46,7 @@ public class Chess extends Application {
 	}
 
 	public void recorridoCaballo(GridPane tablero, ImageView caballo, int[][] movimientos) {
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 64; i++) {
 			agregarCaballo(tablero, caballo, movimientos[i][0], movimientos[i][1]);
 		}
 	}
