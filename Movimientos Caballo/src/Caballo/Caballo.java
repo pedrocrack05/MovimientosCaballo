@@ -40,17 +40,9 @@ public class Caballo {
 				}
 			}
             System.out.println(intento+"= "+fila+", "+columna);
-			int k=0;
-			while(k<8) {
-				if(resolver(fila+dy[movimientosSolucion[k]], columna+dx[movimientosSolucion[k]], intento+1)==-1) {
-					k++;
-					continue;
-				}else {
-					break;
-				}
-			}
-
-			return resolver(fila+dy[movimientosSolucion[k]], columna+dx[movimientosSolucion[k]], intento+1);
+			
+            int solucion= warnsdorff(fila, columna, movimientosSolucion);
+            return resolver(fila+dy[solucion], columna+dx[solucion], intento+1);
 
 		}
 	}
@@ -58,16 +50,23 @@ public class Caballo {
 	public static int warnsdorff(int fila, int columna, int[] movimientosSolucion)throws EImposible {
 		int [] cantidadSiguientesCasillas= new int[1];
 		for(int i=0; i<movimientosSolucion.length; i++) {
+			cantidadSiguientesCasillas= Arrays.copyOf(cantidadSiguientesCasillas, cantidadSiguientesCasillas.length+1);
 			boolean [] movimientosSiguienteCasilla= movimientos(fila+dy[movimientosSolucion[i]], columna+dx[movimientosSolucion[i]]);
 			for(int j=0; j<8; j++) {
 				if(movimientosSiguienteCasilla[j]==true) {
 					cantidadSiguientesCasillas[i]+=1;
 				}
 			}
-			cantidadSiguientesCasillas= Arrays.copyOf(cantidadSiguientesCasillas, cantidadSiguientesCasillas.length+1);
 		}
 		
+		int mejorSolucion= cantidadSiguientesCasillas[0];
+		for(int i=1; i<cantidadSiguientesCasillas.length; i++) {
+			if(mejorSolucion>cantidadSiguientesCasillas[i]) {
+				mejorSolucion= cantidadSiguientesCasillas[i];
+			}
+		}
 		
+		return mejorSolucion;
 	}
 
 	public static boolean[] movimientos(int fila, int columna) throws EImposible {
