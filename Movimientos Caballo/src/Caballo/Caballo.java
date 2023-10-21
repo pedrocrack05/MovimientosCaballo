@@ -3,14 +3,11 @@ package Caballo;
 import java.util.Arrays;
 
 public class Caballo {
-	private int fila, columna;
 	private static int[][] tablero;
 	private static int[] dx = { -2, -1, 1, 2, -2, -1, 1, 2 };
 	private static int[] dy = { 1, 2, 2, 1, -1, -2, -2, -1 };
 
 	public Caballo(int fila, int columna) {
-		this.fila = fila;
-	    this.columna = columna;
 	    tablero = new int[8][8];
 
 	    for (int i = 0; i < 8; i++) {
