@@ -15,24 +15,21 @@ public class Caballo {
 			System.out.println(e.getMessage());
 		}
 		imprimirTablero();
+		// System.out.println(intento);
 	}
 
 	public void resolver(int fila, int columna, int intento) throws EImposible {
-		if (intento > N * N) {
-			imprimirTablero();
-		}
-
+		// this.intento++;
 		if (fila < 0 || fila >= N || columna < 0 || columna >= N) {
 			throw new EImposible("El caballo no se encuentra en el tablero");
 		} else if (tablero[fila][columna] != 0) {
 			throw new EImposible("El caballo ya estuvo aqui");
 		} else {
 			tablero[fila][columna] = intento;
-
 			boolean movimientos[] = movimientos(fila, columna);
 			int k = 0;
 			for (int i = 0; i < N; i++) {
-				if (movimientos[i] == true) {
+				if (movimientos[i]) {
 					k++;
 				}
 			}
@@ -40,7 +37,7 @@ public class Caballo {
 			int movimientosSolucion[] = new int[k];// Se realiza un arreglo con los movimientos que se pueden hacer
 			int j = 0;
 			for (int i = 0; i < N; i++) {
-				if (movimientos[i] == true) {
+				if (movimientos[i]) {
 					movimientosSolucion[j] = i;
 					j++;
 				}
@@ -49,16 +46,20 @@ public class Caballo {
 			pasos[intento - 1][0] = fila;
 			pasos[intento - 1][1] = columna;
 
-			int solucion = warnsdorff(fila, columna, movimientosSolucion);
-			if (solucion == -1) {
-				tablero[fila][columna] = 0;
-				return;
-			} else {
-
+			if (intento < 63) {
+				int solucion = warnsdorff(fila, columna, movimientosSolucion);
 				resolver(fila + dy[movimientosSolucion[solucion]], columna + dx[movimientosSolucion[solucion]],
 						intento + 1);
-				tablero[fila][columna] = 0;
+			} else {
+				System.out.println((intento + 1) + "= " + (fila + dy[movimientosSolucion[0]]) + ", "
+						+ (columna + dx[movimientosSolucion[0]]));
+				pasos[intento - 1][0] = fila;
+				pasos[intento - 1][1] = columna;
+				tablero[fila + dy[movimientosSolucion[0]]][columna + dx[movimientosSolucion[0]]] = intento + 1;
+				return;
 			}
+
+			// tablero[fila][columna] = 0;
 
 		}
 	}
@@ -97,7 +98,7 @@ public class Caballo {
 			int nuevaFila = fila + dy[i];
 			int nuevaColumna = columna + dx[i];
 			if (nuevaFila >= 0 && nuevaFila < N && nuevaColumna >= 0 && nuevaColumna < N
-					&& tablero[nuevaFila][nuevaColumna] == 0) {// HDP
+					&& tablero[nuevaFila][nuevaColumna] == 0) {
 				movimientosValidos[i] = true;
 
 			} else {
@@ -105,7 +106,7 @@ public class Caballo {
 			}
 		}
 
-		if (noHayMovimientosValidos(movimientosValidos) == false) {
+		if (!HayMovimientosValidos(movimientosValidos)) {
 			throw new EImposible("No hay movimientos válidos desde la posición actual.");
 		} else {
 
@@ -113,7 +114,7 @@ public class Caballo {
 		}
 	}
 
-	private static boolean noHayMovimientosValidos(boolean[] movimientosValidos) {
+	private static boolean HayMovimientosValidos(boolean[] movimientosValidos) {
 		for (boolean valido : movimientosValidos) {
 			if (valido) {
 				return true;
@@ -123,15 +124,11 @@ public class Caballo {
 		return false;
 	}
 
-	private boolean esMovimientoValido(int x, int y) {
-		return (x >= 0 && x < N && y >= 0 && y < N && tablero[x][y] == 0);
-	}
-
 	public void imprimirTablero() {
 		for (int i = 0; i < 8; i++) {
 			System.out.print("[");
 			for (int j = 0; j < 8; j++) {
-				System.out.print(tablero[j][i] + " ");
+				System.out.print(tablero[i][j] + "\t");
 			}
 			System.out.print("]\n");
 		}
@@ -143,6 +140,6 @@ public class Caballo {
 
 	public static void main(String[] args) {
 
-		Caballo caballo = new Caballo(5, 5);
+		new Caballo(3, 6);
 	}
 }
