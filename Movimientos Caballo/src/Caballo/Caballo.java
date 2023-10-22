@@ -21,7 +21,6 @@ public class Caballo {
 	public void resolver(int fila, int columna, int intento) throws EImposible {
 		if(intento > N*N) {
 			imprimirTablero();
-			return;
 		}
 
 		if (fila < 0 || fila >= N || columna < 0 || columna >= N) {
@@ -136,6 +135,6 @@ public class Caballo {
 
 	public static void main(String[] args) {
 
-		Caballo caballo= new Caballo(7, 3);
+		Caballo caballo= new Caballo(5, 5);
 	}
 }
