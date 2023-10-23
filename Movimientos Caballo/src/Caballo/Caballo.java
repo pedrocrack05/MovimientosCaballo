@@ -1,4 +1,4 @@
-package Caballo;
+package Caballos;
 
 import java.util.Arrays;
 
@@ -14,16 +14,8 @@ class Paso {
 		return x;
 	}
 
-	public void setX(int x) {
-		this.x = x;
-	}
-
 	public int getY() {
 		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
 	}
 
 }
@@ -33,11 +25,12 @@ public class Caballo {
 	private static int[][] tablero;
 	private static int[] dx = { -2, -1, 1, 2, -2, -1, 1, 2 };
 	private static int[] dy = { 1, 2, 2, 1, -1, -2, -2, -1 };
-	private Paso[] pasos = new Paso[N * N];
-	// int contador = 0;
+	private Paso[] pasos;
+	// int contador = 0; //Solo con motivos de debug
 
 	public Caballo(int fila, int columna) {
 		tablero = new int[N][N];
+		pasos = new Paso[N * N];
 		try {
 			resolver(fila, columna, 1);
 		} catch (EImposible e) {
@@ -68,7 +61,6 @@ public class Caballo {
 
 			int nextFila, nextColumna;
 			if (salto < (N * N) - 1) {// Si estamos en saltos menores al penúltimo salto
-
 				// Se verifica el camino más corto
 				int mejorSolucion = warnsdorff(fila, columna, movimientosPosibles);
 				// Se actualiza la posición en x e y
@@ -93,31 +85,53 @@ public class Caballo {
 		}
 	}
 
-	/*
-	 * public void guardarPaso(int salto, int fila, int columna) { pasos[salto][0] =
-	 * fila; pasos[salto][1] = columna; }
-	 */
+	public static boolean[] movimientos(int fila, int columna) throws EImposible {
+		boolean[] posiblesMovimientos = new boolean[N];// Arreglo temporal para guardar posibilidad o no de moverse
 
-	public int[] indicesPosibles(boolean[] movimientos) {
-		// Guarda en un arreglo solamente los pasos que sean posibles
-		int[] posibles = new int[0];
-		int k = 0;
-		for (int i = 0; i < N; i++) {
-			if (movimientos[i]) {
-				if (posibles == null) {
-					posibles = Arrays.copyOf(posibles, 1);
-					posibles[k] = i;
-					k++;
-				} else {
-					posibles = Arrays.copyOf(posibles, posibles.length + 1);
-					posibles[posibles.length - 1] = i;
-					k++;
-				}
-			}
+		for (int i = 0; i < N; i++) {// Ciclo para verificar si puede o no moverse en cada dirección.
 
+			// Variables temporales con los posibles movimientos a partir de la posición
+			// actual.
+			int tempFila = fila + dy[i];
+			int tempColumna = columna + dx[i];
+
+			//Condición para que pueda contrase un movimiento como válido: 
+			// ( 0 < tempFila < N) ^ (0 < tempColumna < N) ^ (casilla del tablero libre)
+			posiblesMovimientos[i] = (tempFila >= 0 && tempFila < N && tempColumna >= 0 && tempColumna < N
+					&& tablero[tempFila][tempColumna] == 0);//Guarda el resultado al evaluar la condición
 		}
 
-		return posibles;
+		// Verifica que haya por lo menos un movimiento válido entre los posibles
+		// movimientos para que el programa continúe
+		if (unMovimientoValido(posiblesMovimientos)) {
+			return posiblesMovimientos;
+		} else {
+			throw new EImposible("No hay movimientos válidos desde la posición actual.");
+		}
+	}
+
+	// Recorre todo el arreglo hsta que encuentre el primer movimiento válido
+	private static boolean unMovimientoValido(boolean[] posiblesMovimientos) {
+		for (boolean valido : posiblesMovimientos) {
+			if (valido) {
+				return true;
+			}
+		}
+		return false;
+	}
+	//Guarda el índice de los pasos que se puedan hacer en ese momento.
+	public int[] indicesPosibles(boolean[] movimientos) {
+	    int[] posibles = new int[movimientos.length];
+	    int k = 0;
+
+	    for (int i = 0; i < movimientos.length; i++) {
+	        if (movimientos[i]) {
+	            posibles[k] = i;
+	            k++;
+	        }
+	    }
+
+	    return Arrays.copyOf(posibles, k);
 	}
 
 	public static int warnsdorff(int fila, int columna, int[] movimientosPosibles) throws EImposible {
@@ -146,41 +160,6 @@ public class Caballo {
 		return mejorMovimiento;
 	}
 
-	public static boolean[] movimientos(int fila, int columna) throws EImposible {
-		boolean[] movimientosValidos = new boolean[N];
-
-		// estos son los desplazamientos posibles
-
-		for (int i = 0; i < N; i++) {
-			int nuevaFila = fila + dy[i];
-			int nuevaColumna = columna + dx[i];
-			if (nuevaFila >= 0 && nuevaFila < N && nuevaColumna >= 0 && nuevaColumna < N
-					&& tablero[nuevaFila][nuevaColumna] == 0) {
-				movimientosValidos[i] = true;
-
-			} else {
-				movimientosValidos[i] = false;
-			}
-		}
-
-		if (!HayMovimientosValidos(movimientosValidos)) {
-			throw new EImposible("No hay movimientos válidos desde la posición actual.");
-		} else {
-
-			return movimientosValidos;
-		}
-	}
-
-	private static boolean HayMovimientosValidos(boolean[] movimientosValidos) {
-		for (boolean valido : movimientosValidos) {
-			if (valido) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	public void imprimirTablero() {
 		for (int i = 0; i < 8; i++) {
 			System.out.print("[");
@@ -203,7 +182,7 @@ public class Caballo {
 
 	public static void main(String[] args) {
 
-		Caballo caballo = new Caballo(0, 0);
+		Caballo caballo = new Caballo(7, 7);
 		// System.out.println(caballo.contador);
 	}
 }
