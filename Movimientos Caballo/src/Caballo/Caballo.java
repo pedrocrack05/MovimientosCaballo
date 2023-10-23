@@ -57,7 +57,7 @@ public class Caballo {
 				nextColumna = columna + dx[movimientosPosibles[0]];
 				// Se guarda el último movimiento del caballo en la matriz de pasos
 				guardarPaso(salto, nextFila, nextColumna);
-				// Se guarda la posición del caballo en el tablero
+				// Se guarda la última posición del caballo en el tablero
 				tablero[nextFila][nextColumna] = salto + 1;
 				return;
 			}
