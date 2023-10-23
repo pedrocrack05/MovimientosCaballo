@@ -2,12 +2,38 @@ package Caballo;
 
 import java.util.Arrays;
 
+class Paso {
+	int x, y;
+
+	public Paso(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+}
+
 public class Caballo {
 	private final static int N = 8;
 	private static int[][] tablero;
 	private static int[] dx = { -2, -1, 1, 2, -2, -1, 1, 2 };
 	private static int[] dy = { 1, 2, 2, 1, -1, -2, -2, -1 };
-	private int[][] pasos = new int[N * N][2];
+	private Paso[] pasos = new Paso[N * N];
 	// int contador = 0;
 
 	public Caballo(int fila, int columna) {
@@ -29,7 +55,8 @@ public class Caballo {
 			throw new EImposible("El caballo ya estuvo aqui");
 		} else {
 			tablero[fila][columna] = salto;// Guarda salto en tablero
-			guardarPaso(salto - 1, fila, columna);
+			pasos[salto - 1] = new Paso(fila, columna);
+			// guardarPaso(salto - 1, fila, columna);
 
 			// Guardar los movimientos que puede y no puede hacer desde la pos actual
 			boolean movimientos[] = movimientos(fila, columna);
@@ -51,12 +78,14 @@ public class Caballo {
 				resolver(nextFila, nextColumna, salto + 1);
 			} else {
 				// Se guarda el penúltimo movimiento en la matriz de pasos
-				guardarPaso(salto - 1, fila, columna);
+				// guardarPaso(salto - 1, fila, columna);
+				pasos[salto - 1] = new Paso(fila, columna);
 				// Se actualiza la posición del caballo
 				nextFila = fila + dy[movimientosPosibles[0]];
 				nextColumna = columna + dx[movimientosPosibles[0]];
 				// Se guarda el último movimiento del caballo en la matriz de pasos
-				guardarPaso(salto, nextFila, nextColumna);
+				// guardarPaso(salto, nextFila, nextColumna);
+				pasos[salto] = new Paso(nextFila, nextColumna);
 				// Se guarda la última posición del caballo en el tablero
 				tablero[nextFila][nextColumna] = salto + 1;
 				return;
@@ -64,10 +93,10 @@ public class Caballo {
 		}
 	}
 
-	public void guardarPaso(int salto, int fila, int columna) {
-		pasos[salto][0] = fila;
-		pasos[salto][1] = columna;
-	}
+	/*
+	 * public void guardarPaso(int salto, int fila, int columna) { pasos[salto][0] =
+	 * fila; pasos[salto][1] = columna; }
+	 */
 
 	public int[] indicesPosibles(boolean[] movimientos) {
 		// Guarda en un arreglo solamente los pasos que sean posibles
@@ -163,14 +192,12 @@ public class Caballo {
 
 		for (int i = 0; i < 64; i++) {
 			System.out.print("[");
-			for (int j = 0; j < 2; j++) {
-				System.out.print(pasos[i][j] + "\t");
-			}
+			System.out.print(pasos[i].getX() + "\t" + pasos[i].getY());
 			System.out.print("]\n");
 		}
 	}
 
-	public int[][] getPasos() {
+	public Paso[] getPasos() {
 		return pasos;
 	}
 
