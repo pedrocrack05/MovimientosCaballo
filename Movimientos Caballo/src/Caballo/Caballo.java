@@ -1,4 +1,4 @@
-package Caballos;
+package Caballo;
 
 import java.util.Arrays;
 
