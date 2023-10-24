@@ -2,7 +2,6 @@ package Caballo;
 
 import java.util.Arrays;
 
-
 public class Caballo {
 	private final static int N = 8;
 	private static int[][] tablero;
@@ -78,10 +77,10 @@ public class Caballo {
 			int tempFila = fila + dy[i];
 			int tempColumna = columna + dx[i];
 
-			//Condición para que pueda contrase un movimiento como válido: 
+			// Condición para que pueda contrase un movimiento como válido:
 			// ( 0 < tempFila < N) ^ (0 < tempColumna < N) ^ (casilla del tablero libre)
 			posiblesMovimientos[i] = (tempFila >= 0 && tempFila < N && tempColumna >= 0 && tempColumna < N
-					&& tablero[tempFila][tempColumna] == 0);//Guarda el resultado al evaluar la condición
+					&& tablero[tempFila][tempColumna] == 0);// Guarda el resultado al evaluar la condición
 		}
 
 		// Verifica que haya por lo menos un movimiento válido entre los posibles
@@ -102,24 +101,24 @@ public class Caballo {
 		}
 		return false;
 	}
-	//Guarda el índice de los pasos que se puedan hacer en ese momento.
+
+	// Guarda el índice de los pasos que se puedan hacer en ese momento.
 	private int[] indicesPosibles(boolean[] movimientos) {
-	    int[] posibles = new int[movimientos.length];
-	    int k = 0;
+		int[] posibles = new int[movimientos.length];
+		int k = 0;
 
-	    for (int i = 0; i < movimientos.length; i++) {
-	        if (movimientos[i]) {
-	            posibles[k] = i;
-	            k++;
-	        }
-	    }
+		for (int i = 0; i < movimientos.length; i++) {
+			if (movimientos[i]) {
+				posibles[k] = i;
+				k++;
+			}
+		}
 
-	    return Arrays.copyOf(posibles, k);
+		return Arrays.copyOf(posibles, k);
 	}
 
 	private static int warnsdorff(int fila, int columna, int[] movimientosPosibles) throws EImposible {
 		int[] futuros = new int[movimientosPosibles.length];
-
 		for (int i = 0; i < movimientosPosibles.length; i++) {
 			boolean[] movimientosSiguiente = movimientos(fila + dy[movimientosPosibles[i]],
 					columna + dx[movimientosPosibles[i]]);
@@ -132,8 +131,10 @@ public class Caballo {
 
 		int mejorMovimiento = -1;
 		int mejorValor = Integer.MAX_VALUE; // Utilizar Integer.MAX_VALUE
-
 		for (int i = 0; i < futuros.length; i++) {
+			if (futuros[i] == mejorValor) {
+
+			}
 			if (futuros[i] < mejorValor) {
 				mejorValor = futuros[i];
 				mejorMovimiento = i;
