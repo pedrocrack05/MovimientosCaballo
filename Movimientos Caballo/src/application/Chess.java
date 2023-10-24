@@ -23,6 +23,8 @@ public class Chess extends Application {
 	@Override
 	public void start(Stage escena) {
 		GridPane tablero = new GridPane();// Crea un panel en forma de cuadrícula
+		tablero.setPrefSize(400, 425);
+		tablero.autosize();
 		crearCasillas(tablero); // Creación de casillas
 		crearEscena(escena, tablero); // Creación de la escena
 
