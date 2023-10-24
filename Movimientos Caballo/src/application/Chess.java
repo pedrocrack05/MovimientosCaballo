@@ -29,6 +29,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -76,7 +77,7 @@ public class Chess extends Application {
 		ComboBox<Integer> columnasComboBox = new ComboBox<>(columnasOptions);
 		columnasComboBox.setValue(1); // Valor predeterminado
 		tablero.add(columnasComboBox, 4, 8);
-
+		
 		/*
 		 * filasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
 		 * public void changed(ObservableValue<? extends Integer> observable, Integer
