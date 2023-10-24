@@ -1,5 +1,6 @@
 package application;
 
+import Caballo.Caballo;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -49,5 +50,11 @@ public class Chess extends Application {
 		for (int i = 0; i < 64; i++) {
 			agregarCaballo(tablero, caballo, movimientos[i][0], movimientos[i][1]);
 		}
+	}
+
+	public static void main(String[] args) {
+		Caballo caballo = new Caballo(7, 7);
+		// System.out.println(caballo.contador);
+		launch();
 	}
 }
