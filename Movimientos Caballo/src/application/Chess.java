@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -30,6 +31,10 @@ public class Chess extends Application {
 	    tablero.autosize();
 	    crearCasillas(tablero); // Creación de casillas
 	    crearEscena(escena, tablero); // Creación de la escena
+		Image imgCaballo = new Image("\\application\\kballo.png");
+		ImageView caballo = new ImageView();
+		caballo.setImage(imgCaballo);
+		tablero.add(caballo, 0, 0);
 
 	    Button iniciarButton = new Button("Iniciar");
 	    // iniciarButton.setOnAction(event -> iniciarRecorridoCaballo(tablero));
