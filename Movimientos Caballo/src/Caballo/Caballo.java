@@ -5,7 +5,7 @@ import java.util.Arrays;
 import application.Chess;
 
 class Paso {
-	int x, y;
+	private int x, y;
 
 	public Paso(int x, int y) {
 		this.x = x;
