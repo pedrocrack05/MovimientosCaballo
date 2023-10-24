@@ -5,7 +5,7 @@ import java.util.Arrays;
 import application.Chess;
 
 class Paso {
-	int x, y;
+	private int x, y;
 
 	public Paso(int x, int y) {
 		this.x = x;
@@ -87,7 +87,7 @@ public class Caballo {
 		}
 	}
 
-	public static boolean[] movimientos(int fila, int columna) throws EImposible {
+	private static boolean[] movimientos(int fila, int columna) throws EImposible {
 		boolean[] posiblesMovimientos = new boolean[N];// Arreglo temporal para guardar posibilidad o no de moverse
 
 		for (int i = 0; i < N; i++) {// Ciclo para verificar si puede o no moverse en cada dirección.
@@ -122,7 +122,7 @@ public class Caballo {
 		return false;
 	}
 	//Guarda el índice de los pasos que se puedan hacer en ese momento.
-	public int[] indicesPosibles(boolean[] movimientos) {
+	private int[] indicesPosibles(boolean[] movimientos) {
 	    int[] posibles = new int[movimientos.length];
 	    int k = 0;
 
@@ -136,7 +136,7 @@ public class Caballo {
 	    return Arrays.copyOf(posibles, k);
 	}
 
-	public static int warnsdorff(int fila, int columna, int[] movimientosPosibles) throws EImposible {
+	private static int warnsdorff(int fila, int columna, int[] movimientosPosibles) throws EImposible {
 		int[] futuros = new int[movimientosPosibles.length];
 
 		for (int i = 0; i < movimientosPosibles.length; i++) {
