@@ -4,6 +4,9 @@ import java.awt.Label;
 
 import Caballo.Caballo;
 import Caballo.Paso;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,13 +27,18 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 public class Chess extends Application {
+	private int currentIndex=0;
+	private Paso[] pasos;
+	private ImageView caballoImageView;
+	private GridPane tablero;
+	
 
 	@Override
 	public void start(Stage escena) {
 
 		escena.setResizable(false);
 
-		GridPane tablero = new GridPane(); // Crea un panel en forma de cuadrícula
+		tablero = new GridPane(); // Crea un panel en forma de cuadrícula
 		tablero.setPrefSize(400, 425);
 		tablero.autosize();
 		crearCasillas(tablero); // Creación de casillas
@@ -79,15 +87,22 @@ public class Chess extends Application {
 	        }
 	    });
 
-		iniciarButton.setOnAction(new EventHandler<ActionEvent>() {
-		    @Override
-		    public void handle(ActionEvent event) {
-		        Caballo caballo = new Caballo(columnasComboBox.getValue(), filasComboBox.getValue());
-		        recorridoCaballo(tablero, icaballo, caballo.getPasos(), columnasComboBox.getValue(), filasComboBox.getValue());
-		    }
-		});
+	    iniciarButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Caballo caballo = new Caballo(columnasComboBox.getValue(), filasComboBox.getValue());
+                pasos = caballo.getPasos();
+                currentIndex = 0;
 
-	}
+                Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.seconds(1.5), e -> moverCaballo())
+                );
+
+                timeline.setCycleCount(pasos.length);
+                timeline.play();
+            }
+        });
+    }
 
 	public void crearCasillas(GridPane tablero) {
 		int count = 0;
@@ -110,6 +125,19 @@ public class Chess extends Application {
 		escena.setScene(scene);
 		escena.show();
 	}
+	
+	private void moverCaballo() {
+        if (currentIndex < pasos.length) {
+            Paso paso = pasos[currentIndex];
+            int x = paso.getX();
+            int y = paso.getY();
+
+            tablero.getChildren().remove(caballoImageView);
+            tablero.add(caballoImageView, x, y);
+
+            currentIndex++;
+        }
+    }
 
 	public void recorridoCaballo(GridPane tablero, ImageView caballo, Paso[] pasos, int fila, int columna) {
 	    for (int i = 0; i < 64; i++) {
