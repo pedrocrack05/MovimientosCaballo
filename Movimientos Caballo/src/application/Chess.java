@@ -1,5 +1,4 @@
 /*Falta
- * 1. Poner caballo.
  * 2. Resetear los colores cuando se ejecute una nueva solución.
  * 3. Evento para que el caballo empiece en el botón que se presiona.
  * 4. Actualizar UML
@@ -25,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -108,6 +108,7 @@ public class Chess extends Application {
 		iCaballo.setFitHeight(50);
 		iCaballo.setFitWidth(50);
 		iCaballo.setPreserveRatio(true);
+		caballoImageView= iCaballo;
 		return iCaballo;
 	}
 
@@ -153,20 +154,21 @@ public class Chess extends Application {
 	}
 
 	public void recorridoCaballo(GridPane tablero, ImageView caballo, Paso[] pasos, int fila, int columna) {
-		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1500), new EventHandler<ActionEvent>() {
+		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(800), new EventHandler<ActionEvent>() {
 			int b;
 
 			@Override
 			public void handle(ActionEvent event) {
 				Button button = botones[pasos[b].getX()][pasos[b].getY()];
 				if (button != null) {
-					String colorStyle = String.format("-fx-background-color: gray;");
+					String colorStyle = String.format("-fx-background-color: orangered;");
 					button.setStyle(colorStyle);
+					button.setGraphic(caballoImageView);
 				}
 				b++;
 			}
 		}));
-		
+	      
 		// assuming same size of inner arrays here
 		timeline.setCycleCount(64);
 		timeline.play();
