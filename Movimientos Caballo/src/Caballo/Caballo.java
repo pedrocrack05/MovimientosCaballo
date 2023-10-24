@@ -2,6 +2,8 @@ package Caballo;
 
 import java.util.Arrays;
 
+import application.Chess;
+
 class Paso {
 	int x, y;
 
@@ -180,9 +182,4 @@ public class Caballo {
 		return pasos;
 	}
 
-	public static void main(String[] args) {
-
-		Caballo caballo = new Caballo(7, 7);
-		// System.out.println(caballo.contador);
-	}
 }
