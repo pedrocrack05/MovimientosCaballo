@@ -118,12 +118,12 @@ public class Caballo {
 	}
 
 	private static int warnsdorff(int fila, int columna, int[] movimientosPosibles) throws EImposible {
-		int[] futuros = new int[movimientosPosibles.length];
+		int[] futuros = new int[movimientosPosibles.length]; // se crea un arreglo que dira la cantidad de soluciones futuras
 		for (int i = 0; i < movimientosPosibles.length; i++) {
 			boolean[] movimientosSiguiente = movimientos(fila + dy[movimientosPosibles[i]],
 					columna + dx[movimientosPosibles[i]]);
-			for (int j = 0; j < 8; j++) {
-				if (movimientosSiguiente[j]) {
+			for (int j = 0; j < 8; j++) { // se itera 2 veces, una para obtener los movimientos siguientes de todos los pasos posibles
+				if (movimientosSiguiente[j]) { // La otra es para verificar la cantidad de movimientos validos de los movimientos siguientes
 					futuros[i] += 1;
 				}
 			}
@@ -135,7 +135,7 @@ public class Caballo {
 			if (futuros[i] == mejorValor) {
 
 			}
-			if (futuros[i] < mejorValor) {
+			if (futuros[i] < mejorValor) { // se obtiene el indice de la casilla solucion con menos movimientos posibles
 				mejorValor = futuros[i];
 				mejorMovimiento = i;
 			}
