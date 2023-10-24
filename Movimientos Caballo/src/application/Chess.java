@@ -22,35 +22,43 @@ public class Chess extends Application {
 
 	@Override
 	public void start(Stage escena) {
-		GridPane tablero = new GridPane();// Crea un panel en forma de cuadrícula
-		tablero.setPrefSize(400, 425);
-		tablero.autosize();
-		crearCasillas(tablero); // Creación de casillas
-		crearEscena(escena, tablero); // Creación de la escena
-
-		Button iniciarButton = new Button("Iniciar");
-//	    iniciarButton.setOnAction(event -> iniciarRecorridoCaballo(tablero));
-		tablero.add(iniciarButton, 0, 8); // Agregar el botón "Iniciar" al tablero
-
 		
+		escena.setResizable(false);
+		
+	    GridPane tablero = new GridPane(); // Crea un panel en forma de cuadrícula
+	    tablero.setPrefSize(800, 825);
+	    tablero.autosize();
+	    crearCasillas(tablero); // Creación de casillas
+	    crearEscena(escena, tablero); // Creación de la escena
 
-		// Crear ComboBox para las filas
-		ObservableList<Integer> filasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
-		ComboBox<Integer> filasComboBox = new ComboBox<>(filasOptions);
-		filasComboBox.setValue(7); // Valor predeterminado
-		tablero.add(filasComboBox, 2, 8);
+	    Button iniciarButton = new Button("Iniciar");
+	    // iniciarButton.setOnAction(event -> iniciarRecorridoCaballo(tablero));
+	    tablero.add(iniciarButton, 0, 8); // Agregar el botón "Iniciar" al tablero
+	    
+	    Label filasLabel = new Label("Filas:");
+//	    tablero.add(filasLabel, 1, 8);
+	    
+	    Label columnasLabel = new Label("Columnas:");
+//	    tablero.add(columnasLabel, 3, 8);
 
-
-		// Crear ComboBox para las columnas
-		ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
-		ComboBox<Integer> columnasComboBox = new ComboBox<>(columnasOptions);
-		columnasComboBox.setValue(7); // Valor predeterminado
-		tablero.add(columnasComboBox, 4, 8);
+	    // Crear ComboBox para las filas
+	    ObservableList<Integer> filasOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8);
+	    ComboBox<Integer> filasComboBox = new ComboBox<>(filasOptions);
+	    filasComboBox.setValue(7); // Valor predeterminado
+	    tablero.add(filasComboBox, 2, 8);
+	    
+	    
+	    // Crear ComboBox para las columnas
+	    ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8);
+	    ComboBox<Integer> columnasComboBox = new ComboBox<>(columnasOptions);
+	    columnasComboBox.setValue(7); // Valor predeterminado
+	    tablero.add(columnasComboBox, 4, 8);
 	}
+
 
 	public void crearCasillas(GridPane tablero) {
 		int count = 0;
-		double size = 50; // Tamaño
+		double size = 100; // Tamaño
 		for (int i = 0; i < 8; i++) {
 			count++;
 			for (int j = 0; j < 8; j++) {
