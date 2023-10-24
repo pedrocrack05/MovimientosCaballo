@@ -1,4 +1,3 @@
-
 package application;
 
 import java.awt.Label;
@@ -156,12 +155,13 @@ public class Chess extends Application {
 
 			@Override
 			public void handle(ActionEvent event) {
-				Button button = botones[pasos[++b].getX()][pasos[b].getY()];
+				Button button = botones[pasos[b].getX()][pasos[b].getY()];
 				if (button != null) {
 					String colorStyle = String.format("-fx-background-color: orangered;");
 					button.setStyle(colorStyle);
 					button.setGraphic(caballoImageView);
 				}
+				b++;
 			}
 		}));
 	      
