@@ -1,6 +1,16 @@
+/*Falta
+ * 1. Poner caballo.
+ * 2. Resetear los colores cuando se ejecute una nueva solución.
+ * 3. Evento para que el caballo empiece en el botón que se presiona.
+ * 4. Actualizar UML
+ */
+
 package application;
 
 import java.awt.Label;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Caballo.Caballo;
 import Caballo.Paso;
@@ -27,27 +37,24 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 public class Chess extends Application {
-	private int currentIndex=0;
+	private int currentIndex = 0;
 	private Paso[] pasos;
 	private ImageView caballoImageView;
+	private Button[][] botones = new Button[8][8];
 	private GridPane tablero;
-	
+	int posx, poxy;
 
 	@Override
 	public void start(Stage escena) {
 
-		escena.setResizable(false);
-
+		escena.setResizable(false);// Evita que se pueda redimensionar la ventana
 		tablero = new GridPane(); // Crea un panel en forma de cuadrícula
 		tablero.setPrefSize(400, 425);
-		tablero.autosize();
-		crearCasillas(tablero); // Creación de casillas
-		crearEscena(escena, tablero); // Creación de la escena¿
-		ImageView icaballo = new ImageView(new Image("\\application\\kballo.png"));
-		icaballo.setFitHeight(50);
-		icaballo.setFitWidth(50);
-		icaballo.setPreserveRatio(true);
-		tablero.add(icaballo, 0, 0);
+
+		crearCasillas(tablero); // Creación de casillas (Colorea el tablero)
+		crearEscena(escena, tablero); // Creación de la escena (Inicializa y muestra todo)
+
+		// icaballo.setVisible(false);
 
 		Button iniciarButton = new Button("Iniciar");
 		// iniciarButton.setOnAction(event -> iniciarRecorridoCaballo(tablero));
@@ -70,39 +77,32 @@ public class Chess extends Application {
 		ComboBox<Integer> columnasComboBox = new ComboBox<>(columnasOptions);
 		columnasComboBox.setValue(1); // Valor predeterminado
 		tablero.add(columnasComboBox, 4, 8);
-		
-		filasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-	            Caballo caballo = new Caballo(columnasComboBox.getValue(), filasComboBox.getValue());
-	            recorridoCaballo(tablero, icaballo, caballo.getPasos(), columnasComboBox.getValue(), filasComboBox.getValue());
-	        }
-	    });
 
-	    columnasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-	            Caballo caballo = new Caballo(columnasComboBox.getValue(), filasComboBox.getValue());
-	            recorridoCaballo(tablero, icaballo, caballo.getPasos(), columnasComboBox.getValue(), filasComboBox.getValue());
-	        }
-	    });
+		/*
+		 * filasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
+		 * public void changed(ObservableValue<? extends Integer> observable, Integer
+		 * oldValue, Integer newValue) { agregarCaballo(tablero, icaballo, 0,
+		 * filasComboBox.getValue() - 1); } }); ;
+		 * 
+		 * columnasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
+		 * 
+		 * @Override public void changed(ObservableValue<? extends Integer> observable,
+		 * Integer oldValue, Integer newValue) { agregarCaballo(tablero, icaballo,
+		 * columnasComboBox.getValue() - 1, 0); } });
+		 */
 
-	    iniciarButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Caballo caballo = new Caballo(columnasComboBox.getValue(), filasComboBox.getValue());
-                pasos = caballo.getPasos();
-                currentIndex = 0;
+		iniciarButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				int xTemp = columnasComboBox.getValue() - 1;
+				int yTemp = filasComboBox.getValue() - 1;
+				Caballo caballo = new Caballo(xTemp, yTemp);
+				pasos = caballo.getPasos();
+				recorridoCaballo(tablero, caballito(), pasos, yTemp, yTemp);
 
-                Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.seconds(1.5), e -> moverCaballo())
-                );
-
-                timeline.setCycleCount(pasos.length);
-                timeline.play();
-            }
-        });
-    }
+			}
+		});
+	}
 
 	public ImageView caballito() {
 		ImageView iCaballo = new ImageView(new Image("\\application\\kballo.png"));
@@ -118,48 +118,59 @@ public class Chess extends Application {
 		for (int i = 0; i < 8; i++) {
 			count++;
 			for (int j = 0; j < 8; j++) {
-				Rectangle casilla = new Rectangle(size, size, size, size);
-				if (count % 2 == 0)
-					casilla.setFill(Color.WHITE);
+				Button casilla = new Button();
+				casilla.setMinSize(size, size);
+				casilla.setMaxSize(size, size);
+				if (count % 2 == 0) {
+					casilla.setStyle("-fx-background-color: white;");
+				} else {
+					casilla.setStyle("-fx-background-color: black;");
+				}
 				tablero.add(casilla, j, i);
+				botones[i][j] = casilla;
 				count++;
 			}
 		}
 	}
 
-	public void crearEscena(Stage escena, GridPane tablero) {
+	public void crearEscena(Stage lienzo, GridPane tablero) {
 		Scene scene = new Scene(tablero);
-		escena.setTitle("Tablero");
-		escena.setScene(scene);
-		escena.show();
+		lienzo.setTitle("Tablero");
+		lienzo.setScene(scene);
+		lienzo.show();
 	}
-	
+
 	private void moverCaballo() {
-        if (currentIndex < pasos.length) {
-            Paso paso = pasos[currentIndex];
-            int x = paso.getX();
-            int y = paso.getY();
+		if (currentIndex < pasos.length) {
+			Paso paso = pasos[currentIndex];
+			int x = paso.getX();
+			int y = paso.getY();
 
-            tablero.getChildren().remove(caballoImageView);
-            tablero.add(caballoImageView, x, y);
+			tablero.getChildren().remove(caballoImageView);
+			tablero.add(caballoImageView, x, y);
 
-            currentIndex++;
-        }
-    }
-
-	public void recorridoCaballo(GridPane tablero, ImageView caballo, Paso[] pasos, int fila, int columna) {
-		tablero.add(caballo, pasos[0].getY(), pasos[0].getX());
-		for (int i = 1; i < pasos.length; i++) {
-			Rectangle casilla = new Rectangle(50, 50, 50, 50);
-			casilla.setFill(Color.GRAY);
-			tablero.add(casilla, pasos[i].getY(), pasos[i].getX());
-
+			currentIndex++;
 		}
 	}
 
+	public void recorridoCaballo(GridPane tablero, ImageView caballo, Paso[] pasos, int fila, int columna) {
+		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1500), new EventHandler<ActionEvent>() {
+			int b;
 
-	public void agregarCaballo(GridPane tablero, ImageView imgCaballo, int x, int y) {
-		tablero.add(imgCaballo, x, y);
+			@Override
+			public void handle(ActionEvent event) {
+				Button button = botones[pasos[b].getX()][pasos[b].getY()];
+				if (button != null) {
+					String colorStyle = String.format("-fx-background-color: gray;");
+					button.setStyle(colorStyle);
+				}
+				b++;
+			}
+		}));
+		
+		// assuming same size of inner arrays here
+		timeline.setCycleCount(64);
+		timeline.play();
 	}
 
 	public static void main(String[] args) {
