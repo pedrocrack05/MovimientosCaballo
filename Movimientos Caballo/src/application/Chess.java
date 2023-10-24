@@ -23,7 +23,6 @@ public class Chess extends Application {
 	@Override
 	public void start(Stage escena) {
 		GridPane tablero = new GridPane();// Crea un panel en forma de cuadrícula
-		tablero.setPrefSize(400, 425);
 		crearCasillas(tablero); // Creación de casillas
 		crearEscena(escena, tablero); // Creación de la escena
 
@@ -31,10 +30,7 @@ public class Chess extends Application {
 //	    iniciarButton.setOnAction(event -> iniciarRecorridoCaballo(tablero));
 		tablero.add(iniciarButton, 0, 8); // Agregar el botón "Iniciar" al tablero
 
-		// Etiqueta para las filas
-		Label filasLabel = new Label("Filas:");
-//	    HBox filasBox = new HBox(filasLabel);
-//	    tablero.add(filasBox, 1, 8);
+		
 
 		// Crear ComboBox para las filas
 		ObservableList<Integer> filasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
@@ -42,10 +38,6 @@ public class Chess extends Application {
 		filasComboBox.setValue(7); // Valor predeterminado
 		tablero.add(filasComboBox, 2, 8);
 
-		// Etiqueta para las columnas
-		Label columnasLabel = new Label("Columnas:");
-//	    HBox columnasBox = new HBox(columnasLabel);
-//	    tablero.add(columnasBox, 3, 8);
 
 		// Crear ComboBox para las columnas
 		ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
