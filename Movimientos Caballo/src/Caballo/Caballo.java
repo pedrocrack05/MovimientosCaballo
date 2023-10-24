@@ -4,24 +4,6 @@ import java.util.Arrays;
 
 import application.Chess;
 
-class Paso {
-	private int x, y;
-
-	public Paso(int x, int y) {
-		this.x = x;
-		this.y = y;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-}
-
 public class Caballo {
 	private final static int N = 8;
 	private static int[][] tablero;
