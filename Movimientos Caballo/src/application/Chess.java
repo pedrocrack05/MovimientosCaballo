@@ -2,8 +2,8 @@
  * 1. Poner caballo.
  * 2. Resetear los colores cuando se ejecute una nueva solución.
  * 3. Evento para que el caballo empiece en el botón que se presiona.
- */
-
+ * 4. Actualizar UML
+*/
 package application;
 
 import java.awt.Label;

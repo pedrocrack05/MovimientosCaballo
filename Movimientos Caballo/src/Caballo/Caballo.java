@@ -2,7 +2,6 @@ package Caballo;
 
 import java.util.Arrays;
 
-import application.Chess;
 
 public class Caballo {
 	private final static int N = 8;
