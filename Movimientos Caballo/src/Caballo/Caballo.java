@@ -27,7 +27,7 @@ public class Caballo {
 	private static int[][] tablero;
 	private static int[] dx = { -2, -1, 1, 2, -2, -1, 1, 2 };
 	private static int[] dy = { 1, 2, 2, 1, -1, -2, -2, -1 };
-	private Paso[] pasos;
+	public Paso[] pasos;
 	// int contador = 0; //Solo con motivos de debug
 
 	public Caballo(int fila, int columna) {
