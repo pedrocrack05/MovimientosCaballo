@@ -1,3 +1,9 @@
+/*Falta
+ * 1. Poner caballo.
+ * 2. Resetear los colores cuando se ejecute una nueva solución.
+ * 3. Evento para que el caballo empiece en el botón que se presiona.
+ */
+
 package application;
 
 import java.awt.Label;
@@ -33,6 +39,7 @@ public class Chess extends Application {
 	private int currentIndex = 0;
 	private Paso[] pasos;
 	private ImageView caballoImageView;
+	private Button[][] botones = new Button[8][8];
 	private GridPane tablero;
 	int posx, poxy;
 
@@ -110,10 +117,16 @@ public class Chess extends Application {
 		for (int i = 0; i < 8; i++) {
 			count++;
 			for (int j = 0; j < 8; j++) {
-				Rectangle casilla = new Rectangle(size, size, size, size);
-				if (count % 2 == 0)
-					casilla.setFill(Color.WHITE);
+				Button casilla = new Button();
+				casilla.setMinSize(size, size);
+				casilla.setMaxSize(size, size);
+				if (count % 2 == 0) {
+					casilla.setStyle("-fx-background-color: white;");
+				} else {
+					casilla.setStyle("-fx-background-color: black;");
+				}
 				tablero.add(casilla, j, i);
+				botones[i][j] = casilla;
 				count++;
 			}
 		}
@@ -140,17 +153,20 @@ public class Chess extends Application {
 	}
 
 	public void recorridoCaballo(GridPane tablero, ImageView caballo, Paso[] pasos, int fila, int columna) {
-		Rectangle casilla = new Rectangle(50, 50, 50, 50);
-		casilla.setFill(Color.GRAY);
 		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1500), new EventHandler<ActionEvent>() {
 			int b;
 
 			@Override
 			public void handle(ActionEvent event) {
-				tablero.add(casilla, pasos[b].getX(), pasos[b].getY());
+				Button button = botones[pasos[b].getX()][pasos[b].getY()];
+				if (button != null) {
+					String colorStyle = String.format("-fx-background-color: gray;");
+					button.setStyle(colorStyle);
+				}
 				b++;
 			}
 		}));
+		
 		// assuming same size of inner arrays here
 		timeline.setCycleCount(64);
 		timeline.play();
