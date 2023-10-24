@@ -1,6 +1,9 @@
 package application;
 
 import java.awt.Label;
+import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import Caballo.Caballo;
 import Caballo.Paso;
@@ -27,27 +30,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 public class Chess extends Application {
-	private int currentIndex=0;
+	private int currentIndex = 0;
 	private Paso[] pasos;
 	private ImageView caballoImageView;
 	private GridPane tablero;
-	
+	int posx, poxy;
 
 	@Override
 	public void start(Stage escena) {
 
-		escena.setResizable(false);
-
+		escena.setResizable(false);// Evita que se pueda redimensionar la ventana
 		tablero = new GridPane(); // Crea un panel en forma de cuadrícula
 		tablero.setPrefSize(400, 425);
-		tablero.autosize();
-		crearCasillas(tablero); // Creación de casillas
-		crearEscena(escena, tablero); // Creación de la escena¿
-		ImageView icaballo = new ImageView(new Image("\\application\\kballo.png"));
-		icaballo.setFitHeight(50);
-		icaballo.setFitWidth(50);
-		icaballo.setPreserveRatio(true);
-		tablero.add(icaballo, 0, 0);
+
+		crearCasillas(tablero); // Creación de casillas (Colorea el tablero)
+		crearEscena(escena, tablero); // Creación de la escena (Inicializa y muestra todo)
+
+		// icaballo.setVisible(false);
 
 		Button iniciarButton = new Button("Iniciar");
 		// iniciarButton.setOnAction(event -> iniciarRecorridoCaballo(tablero));
@@ -60,49 +59,50 @@ public class Chess extends Application {
 //	    tablero.add(columnasLabel, 3, 8);
 
 		// Crear ComboBox para las filas
-		ObservableList<Integer> filasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
+		ObservableList<Integer> filasOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8);
 		ComboBox<Integer> filasComboBox = new ComboBox<>(filasOptions);
-		filasComboBox.setValue(7); // Valor predeterminado
+		filasComboBox.setValue(1); // Valor predeterminado
 		tablero.add(filasComboBox, 2, 8);
 
 		// Crear ComboBox para las columnas
-		ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
+		ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8);
 		ComboBox<Integer> columnasComboBox = new ComboBox<>(columnasOptions);
-		columnasComboBox.setValue(7); // Valor predeterminado
+		columnasComboBox.setValue(1); // Valor predeterminado
 		tablero.add(columnasComboBox, 4, 8);
-		
-		filasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-	            Caballo caballo = new Caballo(columnasComboBox.getValue(), filasComboBox.getValue());
-	            recorridoCaballo(tablero, icaballo, caballo.getPasos(), columnasComboBox.getValue(), filasComboBox.getValue());
-	        }
-	    });
 
-	    columnasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
-	        @Override
-	        public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-	            Caballo caballo = new Caballo(columnasComboBox.getValue(), filasComboBox.getValue());
-	            recorridoCaballo(tablero, icaballo, caballo.getPasos(), columnasComboBox.getValue(), filasComboBox.getValue());
-	        }
-	    });
+		/*
+		 * filasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
+		 * public void changed(ObservableValue<? extends Integer> observable, Integer
+		 * oldValue, Integer newValue) { agregarCaballo(tablero, icaballo, 0,
+		 * filasComboBox.getValue() - 1); } }); ;
+		 * 
+		 * columnasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
+		 * 
+		 * @Override public void changed(ObservableValue<? extends Integer> observable,
+		 * Integer oldValue, Integer newValue) { agregarCaballo(tablero, icaballo,
+		 * columnasComboBox.getValue() - 1, 0); } });
+		 */
 
-	    iniciarButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Caballo caballo = new Caballo(columnasComboBox.getValue(), filasComboBox.getValue());
-                pasos = caballo.getPasos();
-                currentIndex = 0;
+		iniciarButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				int xTemp = columnasComboBox.getValue() - 1;
+				int yTemp = filasComboBox.getValue() - 1;
+				Caballo caballo = new Caballo(xTemp, yTemp);
+				pasos = caballo.getPasos();
+				recorridoCaballo(tablero, caballito(), pasos, yTemp, yTemp);
 
-                Timeline timeline = new Timeline(
-                    new KeyFrame(Duration.seconds(1.5), e -> moverCaballo())
-                );
+			}
+		});
+	}
 
-                timeline.setCycleCount(pasos.length);
-                timeline.play();
-            }
-        });
-    }
+	public ImageView caballito() {
+		ImageView iCaballo = new ImageView(new Image("\\application\\kballo.png"));
+		iCaballo.setFitHeight(50);
+		iCaballo.setFitWidth(50);
+		iCaballo.setPreserveRatio(true);
+		return iCaballo;
+	}
 
 	public void crearCasillas(GridPane tablero) {
 		int count = 0;
@@ -119,36 +119,41 @@ public class Chess extends Application {
 		}
 	}
 
-	public void crearEscena(Stage escena, GridPane tablero) {
+	public void crearEscena(Stage lienzo, GridPane tablero) {
 		Scene scene = new Scene(tablero);
-		escena.setTitle("Tablero");
-		escena.setScene(scene);
-		escena.show();
+		lienzo.setTitle("Tablero");
+		lienzo.setScene(scene);
+		lienzo.show();
 	}
-	
+
 	private void moverCaballo() {
-        if (currentIndex < pasos.length) {
-            Paso paso = pasos[currentIndex];
-            int x = paso.getX();
-            int y = paso.getY();
+		if (currentIndex < pasos.length) {
+			Paso paso = pasos[currentIndex];
+			int x = paso.getX();
+			int y = paso.getY();
 
-            tablero.getChildren().remove(caballoImageView);
-            tablero.add(caballoImageView, x, y);
+			tablero.getChildren().remove(caballoImageView);
+			tablero.add(caballoImageView, x, y);
 
-            currentIndex++;
-        }
-    }
+			currentIndex++;
+		}
+	}
 
 	public void recorridoCaballo(GridPane tablero, ImageView caballo, Paso[] pasos, int fila, int columna) {
-	    for (int i = 0; i < 64; i++) {
-	        agregarCaballo(tablero, caballo, pasos[i].getX(), pasos[i].getY());
-	    }
-	    agregarCaballo(tablero, caballo, fila, columna); // Agregar el caballo en la posición indicada
-	}
+		Rectangle casilla = new Rectangle(50, 50, 50, 50);
+		casilla.setFill(Color.GRAY);
+		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(1500), new EventHandler<ActionEvent>() {
+			int b;
 
-
-	public void agregarCaballo(GridPane tablero, ImageView imgCaballo, int x, int y) {
-		tablero.add(imgCaballo, x, y);
+			@Override
+			public void handle(ActionEvent event) {
+				tablero.add(casilla, pasos[b].getX(), pasos[b].getY());
+				b++;
+			}
+		}));
+		// assuming same size of inner arrays here
+		timeline.setCycleCount(64);
+		timeline.play();
 	}
 
 	public static void main(String[] args) {
