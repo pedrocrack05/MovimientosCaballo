@@ -33,8 +33,8 @@ public class Chess extends Application {
 
 	    // Etiqueta para las filas
 	    Label filasLabel = new Label("Filas:");
-	    HBox filasBox = new HBox();
-	    tablero.add(filasBox, 1, 8);
+//	    HBox filasBox = new HBox(filasLabel);
+//	    tablero.add(filasBox, 1, 8);
 
 	    // Crear ComboBox para las filas
 	    ObservableList<Integer> filasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
@@ -44,8 +44,8 @@ public class Chess extends Application {
 
 	    // Etiqueta para las columnas
 	    Label columnasLabel = new Label("Columnas:");
-	    HBox columnasBox = new HBox();
-	    tablero.add(columnasBox, 3, 8);
+//	    HBox columnasBox = new HBox(columnasLabel);
+//	    tablero.add(columnasBox, 3, 8);
 
 	    // Crear ComboBox para las columnas
 	    ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
@@ -53,6 +53,7 @@ public class Chess extends Application {
 	    columnasComboBox.setValue(7); // Valor predeterminado
 	    tablero.add(columnasComboBox, 4, 8);
 	}
+
 
 	public void crearCasillas(GridPane tablero) {
         int count = 0;
