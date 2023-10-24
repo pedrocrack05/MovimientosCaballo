@@ -1,14 +1,18 @@
 package application;
 
+import java.awt.Label;
+
 import Caballo.Caballo;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -27,17 +31,27 @@ public class Chess extends Application {
 //	    iniciarButton.setOnAction(event -> iniciarRecorridoCaballo(tablero));
 	    tablero.add(iniciarButton, 0, 8); // Agregar el botón "Iniciar" al tablero
 
+	    // Etiqueta para las filas
+	    Label filasLabel = new Label("Filas:");
+	    HBox filasBox = new HBox();
+	    tablero.add(filasBox, 1, 8);
+
 	    // Crear ComboBox para las filas
-	    ObservableList<Integer> filasOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8);
+	    ObservableList<Integer> filasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
 	    ComboBox<Integer> filasComboBox = new ComboBox<>(filasOptions);
 	    filasComboBox.setValue(7); // Valor predeterminado
-	    tablero.add(filasComboBox, 1, 8);
+	    tablero.add(filasComboBox, 2, 8);
+
+	    // Etiqueta para las columnas
+	    Label columnasLabel = new Label("Columnas:");
+	    HBox columnasBox = new HBox();
+	    tablero.add(columnasBox, 3, 8);
 
 	    // Crear ComboBox para las columnas
-	    ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8);
+	    ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
 	    ComboBox<Integer> columnasComboBox = new ComboBox<>(columnasOptions);
 	    columnasComboBox.setValue(7); // Valor predeterminado
-	    tablero.add(columnasComboBox, 2, 8);
+	    tablero.add(columnasComboBox, 4, 8);
 	}
 
 	public void crearCasillas(GridPane tablero) {
