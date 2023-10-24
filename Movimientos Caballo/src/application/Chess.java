@@ -60,15 +60,15 @@ public class Chess extends Application {
 //	    tablero.add(columnasLabel, 3, 8);
 
 		// Crear ComboBox para las filas
-		ObservableList<Integer> filasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
+		ObservableList<Integer> filasOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8);
 		ComboBox<Integer> filasComboBox = new ComboBox<>(filasOptions);
-		filasComboBox.setValue(7); // Valor predeterminado
+		filasComboBox.setValue(1); // Valor predeterminado
 		tablero.add(filasComboBox, 2, 8);
 
 		// Crear ComboBox para las columnas
-		ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(0, 1, 2, 3, 4, 5, 6, 7);
+		ObservableList<Integer> columnasOptions = FXCollections.observableArrayList(1, 2, 3, 4, 5, 6, 7, 8);
 		ComboBox<Integer> columnasComboBox = new ComboBox<>(columnasOptions);
-		columnasComboBox.setValue(7); // Valor predeterminado
+		columnasComboBox.setValue(1); // Valor predeterminado
 		tablero.add(columnasComboBox, 4, 8);
 		
 		filasComboBox.valueProperty().addListener(new ChangeListener<Integer>() {
@@ -103,6 +103,14 @@ public class Chess extends Application {
             }
         });
     }
+
+	public ImageView caballito() {
+		ImageView iCaballo = new ImageView(new Image("\\application\\kballo.png"));
+		iCaballo.setFitHeight(50);
+		iCaballo.setFitWidth(50);
+		iCaballo.setPreserveRatio(true);
+		return iCaballo;
+	}
 
 	public void crearCasillas(GridPane tablero) {
 		int count = 0;
@@ -140,10 +148,13 @@ public class Chess extends Application {
     }
 
 	public void recorridoCaballo(GridPane tablero, ImageView caballo, Paso[] pasos, int fila, int columna) {
-	    for (int i = 0; i < 64; i++) {
-	        agregarCaballo(tablero, caballo, pasos[i].getX(), pasos[i].getY());
-	    }
-	    agregarCaballo(tablero, caballo, fila, columna); // Agregar el caballo en la posición indicada
+		tablero.add(caballo, pasos[0].getY(), pasos[0].getX());
+		for (int i = 1; i < pasos.length; i++) {
+			Rectangle casilla = new Rectangle(50, 50, 50, 50);
+			casilla.setFill(Color.GRAY);
+			tablero.add(casilla, pasos[i].getY(), pasos[i].getX());
+
+		}
 	}
 
 
